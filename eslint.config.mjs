@@ -14,7 +14,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default [
+const config = [
   ...compat.extends(
     "eslint:recommended",
     "next/core-web-vitals",
@@ -38,23 +38,29 @@ export default [
             ["internal", "parent", "sibling", "index"],
           ],
           pathGroups: [
+            { pattern: "react", group: "external", position: "before" },
+            { pattern: "next", group: "external", position: "before" },
+            { pattern: "next/**", group: "external", position: "before" },
+            { pattern: "@/env*", group: "internal", position: "after" },
+            { pattern: "@/types/**", group: "internal", position: "after" },
+            { pattern: "@/config/**", group: "internal", position: "after" },
+            { pattern: "@/lib/**", group: "internal", position: "after" },
+            { pattern: "@/hooks/**", group: "internal", position: "after" },
             {
-              pattern: "react",
-              group: "external",
-              position: "before",
-            },
-            {
-              pattern: "next/**",
-              group: "external",
-              position: "before",
-            },
-            {
-              pattern: "@/**",
+              pattern: "@/components/ui/**",
               group: "internal",
               position: "after",
             },
+            {
+              pattern: "@/components/**",
+              group: "internal",
+              position: "after",
+            },
+            { pattern: "@/styles/**", group: "internal", position: "after" },
+            { pattern: "@/app/**", group: "internal", position: "after" },
           ],
           pathGroupsExcludedImportTypes: ["react"],
+          alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
       "no-restricted-imports": [
@@ -78,8 +84,10 @@ export default [
       ],
       "@typescript-eslint/no-unused-vars": [
         "error",
-        { argsIgnorePattern: "^_" },
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
     },
   },
 ];
+
+export default config;

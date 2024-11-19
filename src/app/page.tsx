@@ -1,7 +1,5 @@
+import Wizard from "@/components/features/wizard/wizard";
+
 export default function Home() {
-  return (
-    <main>
-      <div>Hello world!</div>
-    </main>
-  );
+  return <Wizard />;
 }
