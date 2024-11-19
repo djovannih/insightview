@@ -4,6 +4,9 @@ import { Inter } from "next/font/google";
 
 import "@/styles/globals.css";
 
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+
 import Header from "@/components/layout/header/header";
 
 const inter = Inter({
@@ -17,14 +20,21 @@ export const metadata: Metadata = {
     "Effortlessly transcribe interviews, extract AI-driven insights, and generate HTML-ready articles with Insightview for streamlined content creation.",
 };
 
-export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
+export default async function RootLayout({
+  children,
+}: Readonly<PropsWithChildren>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={inter.className}>
+    <html lang={locale} className={inter.className}>
       <body className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          {children}
-        </main>
+        <NextIntlClientProvider messages={messages}>
+          <Header />
+          <main className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            {children}
+          </main>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

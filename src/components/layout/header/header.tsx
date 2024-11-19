@@ -9,7 +9,7 @@ export default function Navbar() {
           <Link href="/" className="flex h-9 items-center gap-2">
             <Image src="/images/logo.png" width={27} height={32} alt="Logo" />
             <h1 className="text-2xl font-bold tracking-wide text-gray-800">
-              Insightview
+              {"Insightview"}
             </h1>
           </Link>
         </div>

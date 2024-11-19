@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Upload } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface UploadFormProps {
   uploadFile: (file: File) => void;
@@ -11,6 +12,7 @@ interface UploadFormProps {
 export default function UploadForm({ uploadFile }: UploadFormProps) {
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const t = useTranslations("UploadForm");
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -50,12 +52,13 @@ export default function UploadForm({ uploadFile }: UploadFormProps) {
       <div className="flex flex-col items-center justify-center gap-2 py-6">
         <Upload className="mb-2 h-10 w-10 text-gray-400" />
         <p className="text-sm text-gray-400">
-          <span className="font-semibold">Click to upload</span> or drag and
-          drop
+          {t.rich("uploadOrDragAndDrop", {
+            semibold: (chunks) => (
+              <span className="font-semibold">{chunks}</span>
+            ),
+          })}
         </p>
-        <p className="text-xs text-gray-400">
-          Upload your interview files (MP3, WAV, MP4, MOV)
-        </p>
+        <p className="text-xs text-gray-400">{t("uploadFile")}</p>
       </div>
       <input
         id="dropzone-file"

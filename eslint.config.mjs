@@ -86,6 +86,7 @@ const config = [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
+      "react/jsx-no-literals": "error",
     },
   },
 ];

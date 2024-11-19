@@ -1,0 +1,11 @@
+{
+  "Wizard": {
+    "upload": "Upload",
+    "transcribe": "Transcribe",
+    "results": "Results"
+  },
+  "UploadForm": {
+    "uploadOrDragAndDrop": "<semibold>Click to upload</semibold> or drag and drop",
+    "uploadFile": "Upload your interview file (MP3, WAV, MP4, MOV)"
+  }
+}
