@@ -18,6 +18,7 @@
     "transcription": "Transcription",
     "speaker": "Speaker {name}",
     "error": "An error occurred, please click the button below to try again",
-    "noTranscript": "No dialogue detected, please try another file"
+    "noTranscript": "No dialogue detected, please try another file",
+    "keyPoints": "Key Points"
   }
 }

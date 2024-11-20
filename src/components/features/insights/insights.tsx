@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const fetchTranscript = async (file: File) => {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
-  return await assemblyAI.transcripts.transcribe({
+  const transcript = await assemblyAI.transcripts.transcribe({
     audio: buffer,
     speech_model: "nano",
     language_detection: true,
@@ -24,6 +24,8 @@ const fetchTranscript = async (file: File) => {
     summary_model: "conversational",
     summary_type: "bullets",
   });
+  console.info(transcript);
+  return transcript;
 };
 
 interface InsightsProps {
@@ -48,6 +50,7 @@ export default function Insights({ file }: InsightsProps) {
       <Tabs defaultValue="transcription" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="transcription">{t("transcription")}</TabsTrigger>
+          <TabsTrigger value="summary">{t("keyPoints")}</TabsTrigger>
         </TabsList>
         <TabsContent value="transcription">
           <Card>
@@ -69,6 +72,69 @@ export default function Insights({ file }: InsightsProps) {
                           </div>
                         ))}
                       </div>
+                    </ScrollArea>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center gap-4">
+                      <p>{t("noTranscript")}</p>
+                    </div>
+                  )}
+                </>
+              )}
+              {isLoading && (
+                <div className="flex w-full flex-col justify-center gap-4">
+                  <div className="flex w-full flex-col justify-center gap-1">
+                    <Skeleton className="mb-1 h-4 w-20" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/5" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
+                  <div className="flex w-full flex-col justify-center gap-1">
+                    <Skeleton className="mb-1 h-4 w-20" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/5" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
+                  <div className="flex w-full flex-col justify-center gap-1">
+                    <Skeleton className="mb-1 h-4 w-20" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/5" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
+                </div>
+              )}
+              {error && (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <p>{t("error")}</p>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => mutate()}
+                  >
+                    <RefreshCcw />
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="summary">
+          <Card>
+            <CardContent className="flex flex-col items-center">
+              {transcript && !isLoading && !error && (
+                <>
+                  {transcript.summary ? (
+                    <ScrollArea>
+                      <ul className="flex max-h-96 list-disc flex-col gap-4 pl-5 pr-4">
+                        {transcript.summary
+                          .split("- ")
+                          .slice(1)
+                          .map((bullet) => (
+                            <li key={bullet}>{bullet}</li>
+                          ))}
+                      </ul>
                     </ScrollArea>
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-4">
