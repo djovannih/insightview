@@ -14,9 +14,10 @@ export default function Stepper({ steps, currentStepIndex }: StepperProps) {
             <div
               className={clsx(
                 "text-md flex size-10 items-center justify-center rounded-full font-medium",
-                stepIndex === currentStepIndex
-                  ? "bg-black text-white"
+                currentStepIndex >= stepIndex
+                  ? "bg-gray-900 text-gray-50"
                   : "border-2 border-gray-300 bg-white text-gray-500",
+                currentStepIndex === stepIndex && "shadow-lg",
               )}
             >
               {stepIndex + 1}

@@ -2,7 +2,9 @@
   "Wizard": {
     "upload": "Upload",
     "transcribe": "Transcribe",
-    "results": "Results"
+    "results": "Results",
+    "back": "Back",
+    "next": "Next"
   },
   "UploadForm": {
     "uploadOrDragAndDrop": "Click to upload or drag and drop",

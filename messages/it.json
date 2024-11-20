@@ -2,7 +2,9 @@
   "Wizard": {
     "upload": "Carica",
     "transcribe": "Trascrivi",
-    "results": "Risultati"
+    "results": "Risultati",
+    "back": "Indietro",
+    "next": "Avanti"
   },
   "UploadForm": {
     "uploadOrDragAndDrop": "Clicca per caricare o trascina e rilascia",

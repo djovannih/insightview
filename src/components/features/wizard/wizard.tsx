@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import Stepper from "@/components/ui/stepper";
 import FilePreview from "@/components/features/preview/file-preview";
 import UploadArea from "@/components/features/upload/upload-area";
@@ -30,6 +36,23 @@ export default function Wizard() {
         {currentStepIndex === 0 && <UploadArea uploadFile={uploadFile} />}
         {currentStepIndex === 1 && <FilePreview file={file!} />}
       </CardContent>
+      {currentStepIndex > 0 && (
+        <CardFooter className="flex justify-end gap-4">
+          <Button
+            variant="secondary"
+            onClick={() => setCurrentStepIndex(currentStepIndex - 1)}
+          >
+            {t("back")}
+          </Button>
+          <Button
+            variant="default"
+            onClick={() => setCurrentStepIndex(currentStepIndex + 1)}
+            disabled={currentStepIndex === steps.length - 1}
+          >
+            {t("next")}
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 }
