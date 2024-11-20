@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import useSWRMutation from "swr/mutation";
 
 import assemblyAI from "@/lib/assemblyai";
+import { extractAudioFromVideo } from "@/lib/audioExtractor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,8 +13,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const fetchTranscript = async (file: File) => {
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  const buffer = Buffer.from(
+    file.type.startsWith("video/")
+      ? await extractAudioFromVideo(file)
+      : await file.arrayBuffer(),
+  );
+
   return await assemblyAI.transcripts.transcribe({
     audio: buffer,
     speech_model: "nano",
