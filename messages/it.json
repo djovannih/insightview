@@ -5,7 +5,7 @@
     "results": "Risultati"
   },
   "UploadForm": {
-    "uploadOrDragAndDrop": "<semibold>Clicca per caricare</semibold> o trascina e rilascia",
-    "uploadFile": "Carica il file della tua intervista (MP3, WAV, MP4, MOV)"
+    "uploadOrDragAndDrop": "Clicca per caricare o trascina e rilascia",
+    "uploadFile": "Carica il file audio o video della tua intervista"
   }
 }

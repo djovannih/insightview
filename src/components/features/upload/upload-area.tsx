@@ -5,6 +5,8 @@ import clsx from "clsx";
 import { Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+const inputId = "dropzone-file";
+
 interface UploadFormProps {
   uploadFile: (file: File) => void;
 }
@@ -37,12 +39,12 @@ export default function UploadForm({ uploadFile }: UploadFormProps) {
 
   return (
     <label
-      htmlFor="dropzone-file"
+      htmlFor={inputId}
       className={clsx(
-        "mx-auto flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-gray-50 hover:bg-gray-100",
+        "mx-auto flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed",
         dragActive
-          ? "border-blue-500 bg-blue-50"
-          : "border-gray-300 hover:border-gray-400",
+          ? "border-border bg-muted/50"
+          : "border-muted hover:border-accent hover:bg-muted/20",
       )}
       onDragEnter={handleDrag}
       onDragLeave={handleDrag}
@@ -50,18 +52,16 @@ export default function UploadForm({ uploadFile }: UploadFormProps) {
       onDrop={handleDrop}
     >
       <div className="flex flex-col items-center justify-center gap-2 py-6">
-        <Upload className="mb-2 h-10 w-10 text-gray-400" />
-        <p className="text-sm text-gray-400">
-          {t.rich("uploadOrDragAndDrop", {
-            semibold: (chunks) => (
-              <span className="font-semibold">{chunks}</span>
-            ),
-          })}
+        <Upload className="mb-2 size-12 text-muted-foreground sm:size-16" />
+        <p className="text-lg text-foreground/50 sm:text-3xl">
+          {t("uploadOrDragAndDrop")}
         </p>
-        <p className="text-xs text-gray-400">{t("uploadFile")}</p>
+        <p className="text-sm text-foreground/50 sm:text-lg">
+          {t("uploadFile")}
+        </p>
       </div>
       <input
-        id="dropzone-file"
+        id={inputId}
         ref={inputRef}
         type="file"
         className="hidden"

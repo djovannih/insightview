@@ -5,7 +5,7 @@
     "results": "Results"
   },
   "UploadForm": {
-    "uploadOrDragAndDrop": "<semibold>Click to upload</semibold> or drag and drop",
-    "uploadFile": "Upload your interview file (MP3, WAV, MP4, MOV)"
+    "uploadOrDragAndDrop": "Click to upload or drag and drop",
+    "uploadFile": "Upload your audio or video interview file"
   }
 }
