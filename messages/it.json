@@ -7,5 +7,9 @@
   "UploadForm": {
     "uploadOrDragAndDrop": "Clicca per caricare o trascina e rilascia",
     "uploadFile": "Carica il file audio o video della tua intervista"
+  },
+  "FilePreview": {
+    "audioNotSupported": "Il tuo browser non supporta questo elemento audio",
+    "videoNotSupported": "Il tuo browser non supporta questo elemento video"
   }
 }

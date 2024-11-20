@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Stepper from "@/components/ui/stepper";
+import FilePreview from "@/components/features/preview/file-preview";
 import UploadArea from "@/components/features/upload/upload-area";
 
 export default function Wizard() {
@@ -27,6 +28,7 @@ export default function Wizard() {
       </CardHeader>
       <CardContent>
         {currentStepIndex === 0 && <UploadArea uploadFile={uploadFile} />}
+        {currentStepIndex === 1 && <FilePreview file={file!} />}
       </CardContent>
     </Card>
   );
