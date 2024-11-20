@@ -13,5 +13,11 @@
   "FilePreview": {
     "audioNotSupported": "Il tuo browser non supporta questo elemento audio",
     "videoNotSupported": "Il tuo browser non supporta questo elemento video"
+  },
+  "Insights": {
+    "error": "Si è verificato un errore, per favore clicca sul pulsante in basso per riprovare",
+    "noTranscript": "Nessun dialogo rilevato, prova con un altro file",
+    "speaker": "Persona {nome}",
+    "transcription": "Trascrizione"
   }
 }

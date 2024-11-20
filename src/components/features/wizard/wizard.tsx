@@ -11,6 +11,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import Stepper from "@/components/ui/stepper";
+import Insights from "@/components/features/insights/insights";
 import FilePreview from "@/components/features/preview/file-preview";
 import UploadArea from "@/components/features/upload/upload-area";
 
@@ -35,6 +36,7 @@ export default function Wizard() {
       <CardContent>
         {currentStepIndex === 0 && <UploadArea uploadFile={uploadFile} />}
         {currentStepIndex === 1 && <FilePreview file={file!} />}
+        {currentStepIndex === 2 && <Insights file={file!} />}
       </CardContent>
       {currentStepIndex > 0 && (
         <CardFooter className="flex justify-end gap-4">
