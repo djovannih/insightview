@@ -2,7 +2,7 @@
 
 import { RefreshCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
-import useSWRImmutable from "swr";
+import useSWRMutation from "swr/mutation";
 
 import assemblyAI from "@/lib/assemblyai";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const fetchTranscript = async (file: File) => {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
-  const transcript = await assemblyAI.transcripts.transcribe({
+  return await assemblyAI.transcripts.transcribe({
     audio: buffer,
     speech_model: "nano",
     language_detection: true,
@@ -24,8 +24,6 @@ const fetchTranscript = async (file: File) => {
     summary_model: "conversational",
     summary_type: "bullets",
   });
-  console.info(transcript);
-  return transcript;
 };
 
 interface InsightsProps {
@@ -35,13 +33,13 @@ interface InsightsProps {
 export default function Insights({ file }: InsightsProps) {
   const {
     data: transcript,
+    isMutating,
     error,
-    isLoading,
-    mutate,
-  } = useSWRImmutable(file, fetchTranscript, {
-    shouldRetryOnError: false,
-    revalidateIfStale: false,
-  });
+    trigger,
+    reset,
+  } = useSWRMutation(file, fetchTranscript);
+
+  if (trigger && !isMutating && !error && !transcript) trigger();
 
   const t = useTranslations("Insights");
 
@@ -55,7 +53,7 @@ export default function Insights({ file }: InsightsProps) {
         <TabsContent value="transcription">
           <Card>
             <CardContent className="flex flex-col items-center">
-              {transcript && !isLoading && !error && (
+              {transcript && !isMutating && !error && (
                 <>
                   {transcript.utterances && transcript.utterances.length > 0 ? (
                     <ScrollArea>
@@ -80,7 +78,7 @@ export default function Insights({ file }: InsightsProps) {
                   )}
                 </>
               )}
-              {isLoading && (
+              {isMutating && (
                 <div className="flex w-full flex-col justify-center gap-4">
                   <div className="flex w-full flex-col justify-center gap-1">
                     <Skeleton className="mb-1 h-4 w-20" />
@@ -108,11 +106,7 @@ export default function Insights({ file }: InsightsProps) {
               {error && (
                 <div className="flex flex-col items-center justify-center gap-4">
                   <p>{t("error")}</p>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => mutate()}
-                  >
+                  <Button variant="outline" size="icon" onClick={() => reset()}>
                     <RefreshCcw />
                   </Button>
                 </div>
@@ -123,7 +117,7 @@ export default function Insights({ file }: InsightsProps) {
         <TabsContent value="summary">
           <Card>
             <CardContent className="flex flex-col items-center">
-              {transcript && !isLoading && !error && (
+              {transcript && !isMutating && !error && (
                 <>
                   {transcript.summary ? (
                     <ScrollArea>
@@ -143,7 +137,7 @@ export default function Insights({ file }: InsightsProps) {
                   )}
                 </>
               )}
-              {isLoading && (
+              {isMutating && (
                 <div className="flex w-full flex-col justify-center gap-4">
                   <div className="flex w-full flex-col justify-center gap-1">
                     <Skeleton className="mb-1 h-4 w-20" />
@@ -171,11 +165,7 @@ export default function Insights({ file }: InsightsProps) {
               {error && (
                 <div className="flex flex-col items-center justify-center gap-4">
                   <p>{t("error")}</p>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => mutate()}
-                  >
+                  <Button variant="outline" size="icon" onClick={() => reset()}>
                     <RefreshCcw />
                   </Button>
                 </div>
