@@ -28,8 +28,10 @@
   },
   "InsightsCard": {
     "noTranscript": "Nessun dialogo rilevato, prova con un altro file",
-    "entities": "Entità",
+    "entities": "Entità rilevate",
     "noEntities": "Nessuna entità rilevata",
+    "keywords": "Parole chiave rilevate",
+    "noKeywords": "Nessuna parola chiave rilevata",
     "account_number": "{conteggio, plurale, =1 {Numero di conto} other {Numeri di conto}}",
     "banking_information": "{count, plural, =1 {Informazioni bancarie} other {Informazioni bancarie}}",
     "blood_type": "{conteggio, plurale, =1 {Gruppo sanguigno} other {Gruppi sanguigni}}.",

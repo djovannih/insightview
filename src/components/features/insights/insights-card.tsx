@@ -26,13 +26,13 @@ export default function InsightsCard({
   return (
     <Card>
       <CardContent className="flex flex-col">
-        {transcript && !loading && !error && (
-          <>
-            {transcript.entities && transcript.entities.length > 0 ? (
-              <ScrollArea>
+        {transcript && !loading && !error ? (
+          <ScrollArea>
+            <div className="flex flex-col gap-4 pr-4">
+              {transcript.entities && transcript.entities.length > 0 ? (
                 <div className="flex flex-col gap-2">
                   <span className="font-bold">{t("entities")}</span>
-                  <ul className="flex max-h-96 list-disc flex-col gap-1 pl-5 pr-4">
+                  <ul className="flex max-h-96 list-disc flex-col gap-1 pl-5">
                     {[
                       ...transcript.entities
                         .reduce((entityGroups, entity) => {
@@ -58,13 +58,31 @@ export default function InsightsCard({
                     ))}
                   </ul>
                 </div>
-              </ScrollArea>
-            ) : (
-              <div className="flex flex-col items-center justify-center gap-4">
-                <p>{t("noEntities")}</p>
-              </div>
-            )}
-          </>
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <p>{t("noEntities")}</p>
+                </div>
+              )}
+              {transcript.auto_highlights_result?.status === "success" ? (
+                <div className="flex flex-col gap-2">
+                  <span className="font-bold">{t("keywords")}</span>
+                  <p>
+                    {transcript.auto_highlights_result.results
+                      .map((highlight) => highlight.text)
+                      .join(", ")}
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <p>{t("noKeywords")}</p>
+                </div>
+              )}
+            </div>
+          </ScrollArea>
+        ) : (
+          <div className="flex flex-col items-center justify-center gap-4">
+            <p>{t("noTranscript")}</p>
+          </div>
         )}
         {loading && (
           <div className="flex w-full flex-col justify-center gap-4">

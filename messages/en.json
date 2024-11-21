@@ -30,6 +30,8 @@
     "noTranscript": "No dialogue detected, please try another file",
     "entities": "Entities",
     "noEntities": "No entities detected",
+    "keywords": "Keywords",
+    "noKeywords": "No keywords detected",
     "account_number": "{count, plural, =1 {Account number} other {Account numbers}}",
     "banking_information": "{count, plural, =1 {Banking information} other {Banking information}}",
     "blood_type": "{count, plural, =1 {Blood type} other {Blood types}}",

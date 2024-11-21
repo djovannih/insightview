@@ -27,6 +27,7 @@ const fetchTranscript = async (file: File) => {
     summary_model: "conversational",
     summary_type: "bullets",
     entity_detection: true,
+    auto_highlights: true,
   });
 };
 
