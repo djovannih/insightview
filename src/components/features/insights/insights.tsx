@@ -26,6 +26,7 @@ const fetchTranscript = async (file: File) => {
     summarization: true,
     summary_model: "conversational",
     summary_type: "bullets",
+    iab_categories: true,
     entity_detection: true,
     auto_highlights: true,
   });
