@@ -16,8 +16,6 @@
   },
   "Insights": {
     "transcription": "Transcription",
-    "speaker": "Speaker {name}",
-    "noTranscript": "No dialogue detected, please try another file",
     "keyPoints": "Key Points",
     "entities": "Entities",
     "insights": "Insights",
@@ -66,6 +64,10 @@
     "username": "{count, plural, =1 {Username} other {Usernames}}",
     "vehicle_id": "{count, plural, =1 {Vehicle ID} other {Vehicle IDs}}",
     "zodiac_sign": "{count, plural, =1 {Zodiac sign} other {Zodiac signs}}"
+  },
+  "TranscriptCard": {
+    "speaker": "Speaker {name}",
+    "noTranscript": "No dialogue detected, please try another file"
   },
   "ErrorMessage": {
     "error": "An error occurred, please click the button below to try again"

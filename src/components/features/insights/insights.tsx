@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ErrorMessage from "@/components/features/insights/error-message";
+import TranscriptCard from "@/components/features/insights/transcript-card";
 
 const fetchTranscript = async (file: File) => {
   const buffer = Buffer.from(
@@ -58,61 +59,12 @@ export default function Insights({ file }: InsightsProps) {
           <TabsTrigger value="insights">{t("insights")}</TabsTrigger>
         </TabsList>
         <TabsContent value="transcription">
-          <Card>
-            <CardContent className="flex flex-col">
-              {transcript && !isMutating && !error && (
-                <>
-                  {transcript.utterances && transcript.utterances.length > 0 ? (
-                    <ScrollArea>
-                      <div className="flex max-h-96 flex-col gap-4 pr-4">
-                        {transcript.utterances.map((utterance) => (
-                          <div
-                            key={utterance.start}
-                            className="flex flex-col gap-1"
-                          >
-                            <p className="font-semibold">
-                              {t("speaker", { name: utterance.speaker })}
-                            </p>
-                            <p key={utterance.start}>{utterance.text}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </ScrollArea>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center gap-4">
-                      <p>{t("noTranscript")}</p>
-                    </div>
-                  )}
-                </>
-              )}
-              {isMutating && (
-                <div className="flex w-full flex-col justify-center gap-4">
-                  <div className="flex w-full flex-col justify-center gap-1">
-                    <Skeleton className="mb-1 h-4 w-20" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/5" />
-                    <Skeleton className="h-4 w-4/5" />
-                  </div>
-                  <div className="flex w-full flex-col justify-center gap-1">
-                    <Skeleton className="mb-1 h-4 w-20" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/5" />
-                    <Skeleton className="h-4 w-4/5" />
-                  </div>
-                  <div className="flex w-full flex-col justify-center gap-1">
-                    <Skeleton className="mb-1 h-4 w-20" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/5" />
-                    <Skeleton className="h-4 w-4/5" />
-                  </div>
-                </div>
-              )}
-              {error && <ErrorMessage retry={reset} />}
-            </CardContent>
-          </Card>
+          <TranscriptCard
+            transcript={transcript}
+            loading={isMutating}
+            error={error}
+            retry={reset}
+          />
         </TabsContent>
         <TabsContent value="summary">
           <Card>
