@@ -28,7 +28,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={inter.className}>
-      <body className="min-h-screen bg-gray-50">
+      <body className="min-h-screen bg-muted">
         <NextIntlClientProvider messages={messages}>
           <Header />
           <main className="mx-auto max-w-3xl py-6 sm:px-6 lg:px-8">
