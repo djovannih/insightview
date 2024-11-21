@@ -1,11 +1,12 @@
 "use client";
 
+import { Entity, EntityType } from "assemblyai";
 import { RefreshCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import useSWRMutation from "swr/mutation";
 
 import assemblyAI from "@/lib/assemblyai";
-import { extractAudioFromVideo } from "@/lib/audioExtractor";
+import { extractAudioFromVideo } from "@/lib/audio-extractor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -28,6 +29,7 @@ const fetchTranscript = async (file: File) => {
     summarization: true,
     summary_model: "conversational",
     summary_type: "bullets",
+    entity_detection: true,
   });
 };
 
@@ -54,10 +56,11 @@ export default function Insights({ file }: InsightsProps) {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="transcription">{t("transcription")}</TabsTrigger>
           <TabsTrigger value="summary">{t("keyPoints")}</TabsTrigger>
+          <TabsTrigger value="insights">{t("insights")}</TabsTrigger>
         </TabsList>
         <TabsContent value="transcription">
           <Card>
-            <CardContent className="flex flex-col items-center">
+            <CardContent className="flex flex-col">
               {transcript && !isMutating && !error && (
                 <>
                   {transcript.utterances && transcript.utterances.length > 0 ? (
@@ -121,12 +124,12 @@ export default function Insights({ file }: InsightsProps) {
         </TabsContent>
         <TabsContent value="summary">
           <Card>
-            <CardContent className="flex flex-col items-center">
+            <CardContent className="flex flex-col">
               {transcript && !isMutating && !error && (
                 <>
                   {transcript.summary ? (
                     <ScrollArea>
-                      <ul className="flex max-h-96 list-disc flex-col gap-4 pl-5 pr-4">
+                      <ul className="flex max-h-96 list-disc flex-col gap-2 pl-5 pr-4">
                         {transcript.summary
                           .split("- ")
                           .slice(1)
@@ -138,6 +141,85 @@ export default function Insights({ file }: InsightsProps) {
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-4">
                       <p>{t("noTranscript")}</p>
+                    </div>
+                  )}
+                </>
+              )}
+              {isMutating && (
+                <div className="flex w-full flex-col justify-center gap-4">
+                  <div className="flex w-full flex-col justify-center gap-1">
+                    <Skeleton className="mb-1 h-4 w-20" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/5" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
+                  <div className="flex w-full flex-col justify-center gap-1">
+                    <Skeleton className="mb-1 h-4 w-20" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/5" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
+                  <div className="flex w-full flex-col justify-center gap-1">
+                    <Skeleton className="mb-1 h-4 w-20" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/5" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
+                </div>
+              )}
+              {error && (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <p>{t("error")}</p>
+                  <Button variant="outline" size="icon" onClick={() => reset()}>
+                    <RefreshCcw />
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="insights">
+          <Card>
+            <CardContent className="flex flex-col">
+              {transcript && !isMutating && !error && (
+                <>
+                  {transcript.entities && transcript.entities.length > 0 ? (
+                    <ScrollArea>
+                      <div className="flex flex-col gap-2">
+                        <span className="font-bold">{t("entities")}</span>
+                        <ul className="flex max-h-96 list-disc flex-col gap-1 pl-5 pr-4">
+                          {[
+                            ...transcript.entities
+                              .reduce((entityGroups, entity) => {
+                                const currentEntities =
+                                  entityGroups.get(entity.entity_type) ?? [];
+                                return currentEntities.some(
+                                  (e) => e.text === entity.text,
+                                )
+                                  ? entityGroups
+                                  : new Map(entityGroups).set(
+                                      entity.entity_type,
+                                      [...currentEntities, entity],
+                                    );
+                              }, new Map<EntityType, Entity[]>())
+                              .entries(),
+                          ].map(([entityType, entities]) => (
+                            <li key={entityType}>
+                              <span className="font-semibold">
+                                {`${t(entityType, { count: entities.length })}: `}
+                              </span>
+                              {entities.map((entity) => entity.text).join(", ")}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </ScrollArea>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center gap-4">
+                      <p>{t("noEntities")}</p>
                     </div>
                   )}
                 </>
