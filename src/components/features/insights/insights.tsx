@@ -1,16 +1,12 @@
 "use client";
 
-import { Entity, EntityType } from "assemblyai";
 import { useTranslations } from "next-intl";
 import useSWRMutation from "swr/mutation";
 
 import assemblyAI from "@/lib/assemblyai";
 import { extractAudioFromVideo } from "@/lib/audio-extractor";
-import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ErrorMessage from "@/components/features/insights/error-message";
+import InsightsCard from "@/components/features/insights/insights-card";
 import SummaryCard from "@/components/features/insights/summary-card";
 import TranscriptCard from "@/components/features/insights/transcript-card";
 
@@ -76,76 +72,12 @@ export default function Insights({ file }: InsightsProps) {
           />
         </TabsContent>
         <TabsContent value="insights">
-          <Card>
-            <CardContent className="flex flex-col">
-              {transcript && !isMutating && !error && (
-                <>
-                  {transcript.entities && transcript.entities.length > 0 ? (
-                    <ScrollArea>
-                      <div className="flex flex-col gap-2">
-                        <span className="font-bold">{t("entities")}</span>
-                        <ul className="flex max-h-96 list-disc flex-col gap-1 pl-5 pr-4">
-                          {[
-                            ...transcript.entities
-                              .reduce((entityGroups, entity) => {
-                                const currentEntities =
-                                  entityGroups.get(entity.entity_type) ?? [];
-                                return currentEntities.some(
-                                  (e) => e.text === entity.text,
-                                )
-                                  ? entityGroups
-                                  : new Map(entityGroups).set(
-                                      entity.entity_type,
-                                      [...currentEntities, entity],
-                                    );
-                              }, new Map<EntityType, Entity[]>())
-                              .entries(),
-                          ].map(([entityType, entities]) => (
-                            <li key={entityType}>
-                              <span className="font-semibold">
-                                {`${t(entityType, { count: entities.length })}: `}
-                              </span>
-                              {entities.map((entity) => entity.text).join(", ")}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </ScrollArea>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center gap-4">
-                      <p>{t("noEntities")}</p>
-                    </div>
-                  )}
-                </>
-              )}
-              {isMutating && (
-                <div className="flex w-full flex-col justify-center gap-4">
-                  <div className="flex w-full flex-col justify-center gap-1">
-                    <Skeleton className="mb-1 h-4 w-20" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/5" />
-                    <Skeleton className="h-4 w-4/5" />
-                  </div>
-                  <div className="flex w-full flex-col justify-center gap-1">
-                    <Skeleton className="mb-1 h-4 w-20" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/5" />
-                    <Skeleton className="h-4 w-4/5" />
-                  </div>
-                  <div className="flex w-full flex-col justify-center gap-1">
-                    <Skeleton className="mb-1 h-4 w-20" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/5" />
-                    <Skeleton className="h-4 w-4/5" />
-                  </div>
-                </div>
-              )}
-              {error && <ErrorMessage retry={reset} />}
-            </CardContent>
-          </Card>
+          <InsightsCard
+            transcript={transcript}
+            loading={isMutating}
+            error={error}
+            retry={reset}
+          />
         </TabsContent>
       </Tabs>
     </div>

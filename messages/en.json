@@ -17,8 +17,18 @@
   "Insights": {
     "transcription": "Transcription",
     "keyPoints": "Key Points",
+    "insights": "Insights"
+  },
+  "TranscriptCard": {
+    "speaker": "Speaker {name}",
+    "noTranscript": "No dialogue detected, please try another file"
+  },
+  "SummaryCard": {
+    "noTranscript": "No dialogue detected, please try another file"
+  },
+  "InsightsCard": {
+    "noTranscript": "No dialogue detected, please try another file",
     "entities": "Entities",
-    "insights": "Insights",
     "noEntities": "No entities detected",
     "account_number": "{count, plural, =1 {Account number} other {Account numbers}}",
     "banking_information": "{count, plural, =1 {Banking information} other {Banking information}}",
@@ -64,13 +74,6 @@
     "username": "{count, plural, =1 {Username} other {Usernames}}",
     "vehicle_id": "{count, plural, =1 {Vehicle ID} other {Vehicle IDs}}",
     "zodiac_sign": "{count, plural, =1 {Zodiac sign} other {Zodiac signs}}"
-  },
-  "TranscriptCard": {
-    "speaker": "Speaker {name}",
-    "noTranscript": "No dialogue detected, please try another file"
-  },
-  "SummaryCard": {
-    "noTranscript": "No dialogue detected, please try another file"
   },
   "ErrorMessage": {
     "error": "An error occurred, please click the button below to try again"
