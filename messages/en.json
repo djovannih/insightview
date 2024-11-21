@@ -1,7 +1,8 @@
 {
   "Wizard": {
     "upload": "Upload",
-    "transcribe": "Transcribe",
+    "transcribe": "Start transcription",
+    "restart": "Upload a new file",
     "results": "Results",
     "back": "Back",
     "next": "Next"

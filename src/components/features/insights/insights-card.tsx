@@ -57,7 +57,7 @@ export default function InsightsCard({
           <>
             {entitiesDetected || highlightsDetected || topicsDetected ? (
               <ScrollArea>
-                <div className="flex max-h-96 flex-col gap-6 pr-4">
+                <div className="flex h-96 flex-col gap-6 pr-4">
                   <div className="flex flex-col gap-2">
                     <span className="font-bold">{t("topics")}</span>
                     {topicsDetected ? (

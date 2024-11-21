@@ -1,7 +1,8 @@
 {
   "Wizard": {
     "upload": "Carica",
-    "transcribe": "Trascrivi",
+    "transcribe": "Inizia la trascrizione",
+    "restart": "Carica un nuovo file",
     "results": "Risultati",
     "back": "Indietro",
     "next": "Avanti"

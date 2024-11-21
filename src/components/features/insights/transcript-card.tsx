@@ -30,7 +30,7 @@ export default function TranscriptCard({
           <>
             {transcript.utterances && transcript.utterances.length > 0 ? (
               <ScrollArea>
-                <div className="flex max-h-96 flex-col gap-4 pr-4">
+                <div className="flex h-96 flex-col gap-4 pr-4">
                   {transcript.utterances.map((utterance) => (
                     <div key={utterance.start} className="flex flex-col gap-1">
                       <p className="font-semibold">

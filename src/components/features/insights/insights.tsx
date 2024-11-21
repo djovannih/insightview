@@ -1,56 +1,28 @@
-"use client";
-
+import { Transcript } from "assemblyai";
 import { useTranslations } from "next-intl";
-import useSWRMutation from "swr/mutation";
 
-import assemblyAI from "@/lib/assemblyai";
-import { extractAudioFromVideo } from "@/lib/audio-extractor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import InsightsCard from "@/components/features/insights/insights-card";
 import SummaryCard from "@/components/features/insights/summary-card";
 import TranscriptCard from "@/components/features/insights/transcript-card";
 
-const fetchTranscript = async (file: File) => {
-  const buffer = Buffer.from(
-    file.type.startsWith("video/")
-      ? await extractAudioFromVideo(file)
-      : await file.arrayBuffer(),
-  );
-
-  return await assemblyAI.transcripts.transcribe({
-    audio: buffer,
-    speech_model: "nano",
-    language_detection: true,
-    speaker_labels: true,
-    format_text: true,
-    summarization: true,
-    summary_model: "conversational",
-    summary_type: "bullets",
-    iab_categories: true,
-    entity_detection: true,
-    auto_highlights: true,
-  });
-};
-
 interface InsightsProps {
-  file: File;
+  transcript: Transcript | undefined;
+  loading: boolean;
+  error: boolean;
+  retry: () => void;
 }
 
-export default function Insights({ file }: InsightsProps) {
-  const {
-    data: transcript,
-    isMutating,
-    error,
-    trigger,
-    reset,
-  } = useSWRMutation(file, fetchTranscript);
-
-  if (trigger && !isMutating && !error && !transcript) trigger();
-
+export default function Insights({
+  transcript,
+  loading,
+  error,
+  retry,
+}: InsightsProps) {
   const t = useTranslations("Insights");
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex w-full flex-col items-center gap-2">
       <Tabs defaultValue="transcription" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="transcription">{t("transcription")}</TabsTrigger>
@@ -60,25 +32,25 @@ export default function Insights({ file }: InsightsProps) {
         <TabsContent value="transcription">
           <TranscriptCard
             transcript={transcript}
-            loading={isMutating}
+            loading={loading}
             error={error}
-            retry={reset}
+            retry={retry}
           />
         </TabsContent>
         <TabsContent value="summary">
           <SummaryCard
             transcript={transcript}
-            loading={isMutating}
+            loading={loading}
             error={error}
-            retry={reset}
+            retry={retry}
           />
         </TabsContent>
         <TabsContent value="insights">
           <InsightsCard
             transcript={transcript}
-            loading={isMutating}
+            loading={loading}
             error={error}
-            retry={reset}
+            retry={retry}
           />
         </TabsContent>
       </Tabs>

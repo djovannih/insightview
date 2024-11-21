@@ -8,7 +8,7 @@ export default function FilePreview({ file }: FilePreviewProps) {
   const t = useTranslations("FilePreview");
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2">
+    <div className="flex w-full flex-col items-center justify-center gap-2">
       {file.type.startsWith("audio/") ? (
         <audio className="w-full" controls>
           <source src={URL.createObjectURL(file)} type={file.type} />

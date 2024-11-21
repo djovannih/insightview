@@ -30,7 +30,7 @@ export default function SummaryCard({
           <>
             {transcript.summary ? (
               <ScrollArea>
-                <ul className="flex max-h-96 list-disc flex-col gap-2 pl-5 pr-4">
+                <ul className="flex h-96 list-disc flex-col gap-2 pl-5 pr-4">
                   {transcript.summary
                     .split("- ")
                     .slice(1)
