@@ -1,17 +1,16 @@
 "use client";
 
 import { Entity, EntityType } from "assemblyai";
-import { RefreshCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import useSWRMutation from "swr/mutation";
 
 import assemblyAI from "@/lib/assemblyai";
 import { extractAudioFromVideo } from "@/lib/audio-extractor";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ErrorMessage from "@/components/features/insights/error-message";
 
 const fetchTranscript = async (file: File) => {
   const buffer = Buffer.from(
@@ -111,14 +110,7 @@ export default function Insights({ file }: InsightsProps) {
                   </div>
                 </div>
               )}
-              {error && (
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <p>{t("error")}</p>
-                  <Button variant="outline" size="icon" onClick={() => reset()}>
-                    <RefreshCcw />
-                  </Button>
-                </div>
-              )}
+              {error && <ErrorMessage retry={reset} />}
             </CardContent>
           </Card>
         </TabsContent>
@@ -170,14 +162,7 @@ export default function Insights({ file }: InsightsProps) {
                   </div>
                 </div>
               )}
-              {error && (
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <p>{t("error")}</p>
-                  <Button variant="outline" size="icon" onClick={() => reset()}>
-                    <RefreshCcw />
-                  </Button>
-                </div>
-              )}
+              {error && <ErrorMessage retry={reset} />}
             </CardContent>
           </Card>
         </TabsContent>
@@ -249,14 +234,7 @@ export default function Insights({ file }: InsightsProps) {
                   </div>
                 </div>
               )}
-              {error && (
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <p>{t("error")}</p>
-                  <Button variant="outline" size="icon" onClick={() => reset()}>
-                    <RefreshCcw />
-                  </Button>
-                </div>
-              )}
+              {error && <ErrorMessage retry={reset} />}
             </CardContent>
           </Card>
         </TabsContent>
