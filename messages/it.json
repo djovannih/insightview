@@ -69,6 +69,9 @@
     "speaker": "Persona {nome}",
     "noTranscript": "Nessun dialogo rilevato, prova con un altro file"
   },
+  "SummaryCard": {
+    "noTranscript": "Nessun dialogo rilevato, prova con un altro file"
+  },
   "ErrorMessage": {
     "error": "Si è verificato un errore, per favore clicca sul pulsante in basso per riprovare"
   }
