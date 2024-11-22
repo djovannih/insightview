@@ -1,5 +1,5 @@
 {
-  "Wizard": {
+  "TranscriptActions": {
     "upload": "Upload",
     "transcribe": "Start transcription",
     "restart": "Upload a new file",

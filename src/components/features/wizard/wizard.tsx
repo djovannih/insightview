@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
 import useSWRMutation from "swr/mutation";
 
 import assemblyAI from "@/lib/assemblyai";
 import { extractAudioFromVideo } from "@/lib/audio-extractor";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Insights from "@/components/features/insights/insights";
 import FilePreview from "@/components/features/preview/file-preview";
 import UploadArea from "@/components/features/upload/upload-area";
+import TranscriptActions from "@/components/features/wizard/transcript-actions";
 
 const fetchTranscript = async (file: File) => {
   const buffer = Buffer.from(
@@ -39,7 +38,6 @@ const fetchSubtitles = async (transcriptId: string) =>
 
 export default function Wizard() {
   const [file, setFile] = useState<File | null>(null);
-  const [showInsights, setShowInsights] = useState(false);
 
   const {
     data: transcript,
@@ -58,8 +56,6 @@ export default function Wizard() {
     subtitles &&
     URL.createObjectURL(new Blob([subtitles], { type: "text/vtt" }));
 
-  const t = useTranslations("Wizard");
-
   return (
     <Card>
       <CardContent>
@@ -68,41 +64,18 @@ export default function Wizard() {
         ) : (
           <div className="flex flex-col gap-4">
             <FilePreview file={file} subtitlesSrc={subtitlesBlobUrl} />
-            <div className="flex w-full justify-between gap-2">
-              <Button variant="outline" onClick={() => setFile(null)}>
-                {t("restart")}
-              </Button>
-              {!showInsights || transcriptLoading || transcriptError ? (
-                <Button
-                  onClick={() => {
-                    setShowInsights(true);
-                    generateTranscript();
-                  }}
-                  disabled={!file || transcriptError}
-                >
-                  {t("transcribe")}
-                </Button>
-              ) : !subtitlesBlobUrl ? (
-                <Button
-                  onClick={() => {
-                    generateSubtitles();
-                  }}
-                  disabled={!transcript || subtitlesLoading}
-                >
-                  {t("generateSubtitles")}
-                </Button>
-              ) : (
-                <Button asChild>
-                  <a
-                    href={subtitlesBlobUrl}
-                    download={`${file.name.split(".").slice(0, -1).join(".")}.vtt`}
-                  >
-                    {t("downloadSubtitles")}
-                  </a>
-                </Button>
-              )}
-            </div>
-            {showInsights && (
+            <TranscriptActions
+              file={file!}
+              discardFile={() => setFile(null)}
+              generateTranscript={generateTranscript}
+              transcript={transcript}
+              transcriptLoading={transcriptLoading}
+              transcriptError={!!transcriptError}
+              generateSubtitles={generateSubtitles}
+              subtitlesBlobUrl={subtitlesBlobUrl}
+              subtitlesLoading={subtitlesLoading}
+            />
+            {transcript && (
               <Insights
                 transcript={transcript}
                 loading={transcriptLoading}
