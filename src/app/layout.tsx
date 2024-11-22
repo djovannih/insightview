@@ -7,6 +7,7 @@ import "@/styles/globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 
+import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/layout/header/header";
 
 const inter = Inter({
@@ -34,6 +35,7 @@ export default async function RootLayout({
           <main className="mx-auto max-w-3xl py-6 sm:px-6 lg:px-8">
             {children}
           </main>
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>

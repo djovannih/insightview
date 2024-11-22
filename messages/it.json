@@ -5,7 +5,14 @@
     "restart": "Carica un nuovo file",
     "results": "Risultati",
     "generateSubtitles": "Genera sottotitoli",
-    "downloadSubtitles": "Scarica sottotitoli"
+    "downloadSubtitles": "Scarica sottotitoli",
+    "loadingSubtitlesTitle": "Generazione dei sottotitoli in corso...",
+    "loadingSubtitlesDescriptionVideo": "I sottotitoli verranno aggiunti al tuo video e resi disponibili per il download a breve",
+    "loadingSubtitlesDescriptionAudio": "I sottotitoli verranno generati e resi disponibili per il download a breve",
+    "errorSubtitlesTitle": "Generazione dei sottotitoli fallita",
+    "errorSubtitlesDescription": "Si è verificato un errore durante la generazione dei sottotitoli, per favore riprova",
+    "successSubtitlesTitle": "Sottotitoli pronti!",
+    "successSubtitlesDescription": "I sottotitoli sono stati aggiunti al tuo video e sono pronti per il download"
   },
   "UploadForm": {
     "uploadOrDragAndDrop": "Clicca per caricare o trascina e rilascia",

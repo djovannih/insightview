@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Transcript } from "assemblyai";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 
@@ -14,6 +15,7 @@ interface TranscriptActionsProps {
   generateSubtitles: () => void;
   subtitlesBlobUrl: string | undefined;
   subtitlesLoading: boolean;
+  subtitlesError: boolean;
 }
 
 export default function TranscriptActions({
@@ -26,8 +28,32 @@ export default function TranscriptActions({
   generateSubtitles,
   subtitlesBlobUrl,
   subtitlesLoading,
+  subtitlesError,
 }: TranscriptActionsProps) {
   const t = useTranslations("TranscriptActions");
+
+  useEffect(() => {
+    const loadingToastId = "loading";
+    if (subtitlesLoading)
+      toast.loading(t("loadingSubtitlesTitle"), {
+        description: file.type.startsWith("video/")
+          ? t("loadingSubtitlesDescriptionVideo")
+          : t("loadingSubtitlesDescriptionAudio"),
+        id: loadingToastId,
+      });
+    else toast.dismiss(loadingToastId);
+
+    if (subtitlesError)
+      toast.error(t("errorSubtitlesTitle"), {
+        description: t("errorSubtitlesDescription"),
+      });
+
+    if (subtitlesBlobUrl && !subtitlesLoading && !subtitlesError)
+      toast.success(t("successSubtitlesTitle"), {
+        description: t("successSubtitlesDescription"),
+        duration: 8000,
+      });
+  }, [subtitlesBlobUrl, subtitlesLoading, subtitlesError, file.type, t]);
 
   return (
     <div className="flex w-full justify-between gap-2">
@@ -42,7 +68,7 @@ export default function TranscriptActions({
           {t("transcribe")}
         </Button>
       )}
-      {transcript && !subtitlesBlobUrl && (
+      {!!transcript && !subtitlesBlobUrl && (
         <Button
           onClick={generateSubtitles}
           disabled={!transcript || subtitlesLoading}
@@ -50,7 +76,7 @@ export default function TranscriptActions({
           {t("generateSubtitles")}
         </Button>
       )}
-      {transcript && subtitlesBlobUrl && (
+      {!!transcript && subtitlesBlobUrl && (
         <Button asChild>
           <a
             href={subtitlesBlobUrl}

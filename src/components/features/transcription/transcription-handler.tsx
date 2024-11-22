@@ -49,6 +49,7 @@ export default function TranscriptionHandler() {
   const {
     data: subtitles,
     isMutating: subtitlesLoading,
+    error: subtitlesError,
     trigger: generateSubtitles,
   } = useSWRMutation(transcript?.id ?? null, fetchSubtitles);
 
@@ -74,8 +75,9 @@ export default function TranscriptionHandler() {
               generateSubtitles={generateSubtitles}
               subtitlesBlobUrl={subtitlesBlobUrl}
               subtitlesLoading={subtitlesLoading}
+              subtitlesError={!!subtitlesError}
             />
-            {transcript && (
+            {(!!transcript || transcriptLoading || !!transcriptError) && (
               <Insights
                 transcript={transcript}
                 loading={transcriptLoading}

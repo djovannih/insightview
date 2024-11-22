@@ -109,7 +109,7 @@ export default function InsightsCard({
           </>
         )}
         {loading && (
-          <div className="flex w-full flex-col justify-center gap-4">
+          <div className="flex h-96 w-full flex-col justify-center gap-4">
             <div className="flex w-full flex-col justify-center gap-1">
               <Skeleton className="mb-1 h-4 w-20" />
               <Skeleton className="h-4 w-2/3" />

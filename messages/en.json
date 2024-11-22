@@ -5,10 +5,17 @@
     "restart": "Upload a new file",
     "results": "Results",
     "generateSubtitles": "Generate subtitles",
-    "downloadSubtitles": "Download subtitles"
+    "downloadSubtitles": "Download subtitles",
+    "loadingSubtitlesTitle": "Generating subtitles...",
+    "loadingSubtitlesDescriptionVideo": "Subtitles will be added to your video and made available for download shortly",
+    "loadingSubtitlesDescriptionAudio": "Subtitles will be generated and made available for download shortly",
+    "errorSubtitlesTitle": "Subtitles generation failed",
+    "errorSubtitlesDescription": "An error occurred while generating subtitles, please try again",
+    "successSubtitlesTitle": "Subtitles ready!",
+    "successSubtitlesDescription": "Subtitles have been added to your video and are ready for download as a file"
   },
   "UploadForm": {
-    "uploadOrDragAndDrop": "Click to upload or drag and drop",
+    "uploadOrDragAndDrop": "Subtitle generation failed",
     "uploadFile": "Upload your audio or video interview file"
   },
   "FilePreview": {

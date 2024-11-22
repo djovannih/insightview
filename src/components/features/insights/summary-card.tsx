@@ -47,7 +47,7 @@ export default function SummaryCard({
           </>
         )}
         {loading && (
-          <div className="flex w-full flex-col justify-center gap-4">
+          <div className="flex h-96 w-full flex-col justify-center gap-4">
             <div className="flex w-full flex-col justify-center gap-1">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-full" />
