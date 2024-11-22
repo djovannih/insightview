@@ -4,8 +4,8 @@
     "transcribe": "Start transcription",
     "restart": "Upload a new file",
     "results": "Results",
-    "back": "Back",
-    "next": "Next"
+    "generateSubtitles": "Generate subtitles",
+    "downloadSubtitles": "Download subtitles"
   },
   "UploadForm": {
     "uploadOrDragAndDrop": "Click to upload or drag and drop",

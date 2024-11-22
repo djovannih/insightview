@@ -2,9 +2,10 @@ import { useTranslations } from "next-intl";
 
 interface FilePreviewProps {
   file: File;
+  subtitlesSrc: string | undefined;
 }
 
-export default function FilePreview({ file }: FilePreviewProps) {
+export default function FilePreview({ file, subtitlesSrc }: FilePreviewProps) {
   const t = useTranslations("FilePreview");
 
   return (
@@ -17,6 +18,9 @@ export default function FilePreview({ file }: FilePreviewProps) {
       ) : (
         <video className="h-full w-full rounded-md" controls>
           <source src={URL.createObjectURL(file)} type={file.type} />
+          {subtitlesSrc && (
+            <track kind="subtitles" src={subtitlesSrc} default />
+          )}
           {t("videoNotSupported")}
         </video>
       )}

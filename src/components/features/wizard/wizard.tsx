@@ -7,7 +7,7 @@ import useSWRMutation from "swr/mutation";
 import assemblyAI from "@/lib/assemblyai";
 import { extractAudioFromVideo } from "@/lib/audio-extractor";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Insights from "@/components/features/insights/insights";
 import FilePreview from "@/components/features/preview/file-preview";
 import UploadArea from "@/components/features/upload/upload-area";
@@ -34,17 +34,29 @@ const fetchTranscript = async (file: File) => {
   });
 };
 
+const fetchSubtitles = async (transcriptId: string) =>
+  await assemblyAI.transcripts.subtitles(transcriptId, "vtt");
+
 export default function Wizard() {
   const [file, setFile] = useState<File | null>(null);
   const [showInsights, setShowInsights] = useState(false);
 
   const {
     data: transcript,
-    isMutating,
-    error,
-    trigger,
-    reset,
+    isMutating: transcriptLoading,
+    error: transcriptError,
+    trigger: generateTranscript,
   } = useSWRMutation(file, fetchTranscript);
+
+  const {
+    data: subtitles,
+    isMutating: subtitlesLoading,
+    trigger: generateSubtitles,
+  } = useSWRMutation(transcript?.id ?? null, fetchSubtitles);
+
+  const subtitlesBlobUrl =
+    subtitles &&
+    URL.createObjectURL(new Blob([subtitles], { type: "text/vtt" }));
 
   const t = useTranslations("Wizard");
 
@@ -55,34 +67,52 @@ export default function Wizard() {
           <UploadArea uploadFile={(file) => setFile(file)} />
         ) : (
           <div className="flex flex-col gap-4">
-            <FilePreview file={file} />
+            <FilePreview file={file} subtitlesSrc={subtitlesBlobUrl} />
+            <div className="flex w-full justify-between gap-2">
+              <Button variant="outline" onClick={() => setFile(null)}>
+                {t("restart")}
+              </Button>
+              {!showInsights || transcriptLoading || transcriptError ? (
+                <Button
+                  onClick={() => {
+                    setShowInsights(true);
+                    generateTranscript();
+                  }}
+                  disabled={!file || transcriptError}
+                >
+                  {t("transcribe")}
+                </Button>
+              ) : !subtitlesBlobUrl ? (
+                <Button
+                  onClick={() => {
+                    generateSubtitles();
+                  }}
+                  disabled={!transcript || subtitlesLoading}
+                >
+                  {t("generateSubtitles")}
+                </Button>
+              ) : (
+                <Button asChild>
+                  <a
+                    href={subtitlesBlobUrl}
+                    download={`${file.name.split(".").slice(0, -1).join(".")}.vtt`}
+                  >
+                    {t("downloadSubtitles")}
+                  </a>
+                </Button>
+              )}
+            </div>
             {showInsights && (
               <Insights
                 transcript={transcript}
-                loading={isMutating}
-                error={!!error}
-                retry={reset}
+                loading={transcriptLoading}
+                error={!!transcriptError}
+                retry={generateTranscript}
               />
             )}
           </div>
         )}
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full justify-between gap-2">
-          <Button variant="outline" onClick={() => setFile(null)}>
-            {t("restart")}
-          </Button>
-          <Button
-            onClick={() => {
-              setShowInsights(true);
-              trigger();
-            }}
-            disabled={!file || showInsights}
-          >
-            {t("transcribe")}
-          </Button>
-        </div>
-      </CardFooter>
     </Card>
   );
 }

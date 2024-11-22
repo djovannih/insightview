@@ -4,8 +4,8 @@
     "transcribe": "Inizia la trascrizione",
     "restart": "Carica un nuovo file",
     "results": "Risultati",
-    "back": "Indietro",
-    "next": "Avanti"
+    "generateSubtitles": "Genera sottotitoli",
+    "downloadSubtitles": "Scarica sottotitoli"
   },
   "UploadForm": {
     "uploadOrDragAndDrop": "Clicca per caricare o trascina e rilascia",

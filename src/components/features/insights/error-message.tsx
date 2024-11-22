@@ -11,7 +11,7 @@ export default function ErrorMessage({ retry }: ErrorMessageProps) {
   const t = useTranslations("ErrorMessage");
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex h-96 flex-col items-center justify-center gap-4">
       <p>{t("error")}</p>
       <Button variant="outline" size="icon" onClick={() => retry()}>
         <RefreshCcw />
