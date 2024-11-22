@@ -15,7 +15,7 @@
     "successSubtitlesDescription": "Subtitles have been added to your video and are ready for download as a file"
   },
   "UploadForm": {
-    "uploadOrDragAndDrop": "Subtitle generation failed",
+    "uploadOrDragAndDrop": "Click to upload or drag and drop",
     "uploadFile": "Upload your audio or video interview file"
   },
   "FilePreview": {

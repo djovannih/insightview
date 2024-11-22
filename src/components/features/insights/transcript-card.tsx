@@ -10,15 +10,15 @@ import ErrorMessage from "@/components/features/insights/error-message";
 
 interface TranscriptCardProps {
   transcript: Transcript | undefined;
-  loading: boolean;
-  error: boolean;
+  transcriptLoading: boolean;
+  transcriptError: boolean;
   retry: () => void;
 }
 
 export default function TranscriptCard({
   transcript,
-  loading,
-  error,
+  transcriptLoading,
+  transcriptError,
   retry,
 }: TranscriptCardProps) {
   const t = useTranslations("TranscriptCard");
@@ -26,7 +26,7 @@ export default function TranscriptCard({
   return (
     <Card>
       <CardContent className="flex flex-col">
-        {transcript && !loading && !error && (
+        {transcript?.status === "completed" && (
           <>
             {transcript.utterances && transcript.utterances.length > 0 ? (
               <ScrollArea>
@@ -34,7 +34,9 @@ export default function TranscriptCard({
                   {transcript.utterances.map((utterance) => (
                     <div key={utterance.start} className="flex flex-col gap-1">
                       <p className="font-semibold">
-                        {t("speaker", { name: utterance.speaker })}
+                        {utterance.speaker.length === 1
+                          ? t("speaker", { name: utterance.speaker })
+                          : utterance.speaker}
                       </p>
                       <p key={utterance.start}>{utterance.text}</p>
                     </div>
@@ -48,7 +50,7 @@ export default function TranscriptCard({
             )}
           </>
         )}
-        {loading && (
+        {transcriptLoading && (
           <div className="flex h-96 w-full flex-col justify-center gap-4">
             <div className="flex w-full flex-col justify-center gap-1">
               <Skeleton className="mb-1 h-4 w-20" />
@@ -73,7 +75,7 @@ export default function TranscriptCard({
             </div>
           </div>
         )}
-        {error && <ErrorMessage retry={retry} />}
+        {transcriptError && <ErrorMessage retry={retry} />}
       </CardContent>
     </Card>
   );

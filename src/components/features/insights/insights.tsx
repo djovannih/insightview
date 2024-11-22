@@ -32,8 +32,8 @@ export default function Insights({
         <TabsContent value="transcription">
           <TranscriptCard
             transcript={transcript}
-            loading={loading}
-            error={error}
+            transcriptLoading={loading}
+            transcriptError={error}
             retry={retry}
           />
         </TabsContent>

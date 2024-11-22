@@ -3,38 +3,15 @@
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 
-import assemblyAI from "@/lib/assemblyai";
-import { extractAudioFromVideo } from "@/lib/audio-extractor";
 import { Card, CardContent } from "@/components/ui/card";
 import Insights from "@/components/features/insights/insights";
 import FilePreview from "@/components/features/preview/file-preview";
+import {
+  fetchSubtitles,
+  fetchTranscript,
+} from "@/components/features/transcription/fetchers";
 import TranscriptActions from "@/components/features/transcription/transcript-actions";
 import UploadArea from "@/components/features/upload/upload-area";
-
-const fetchTranscript = async (file: File) => {
-  const buffer = Buffer.from(
-    file.type.startsWith("video/")
-      ? await extractAudioFromVideo(file)
-      : await file.arrayBuffer(),
-  );
-
-  return await assemblyAI.transcripts.transcribe({
-    audio: buffer,
-    speech_model: "nano",
-    language_detection: true,
-    speaker_labels: true,
-    format_text: true,
-    summarization: true,
-    summary_model: "conversational",
-    summary_type: "bullets",
-    iab_categories: true,
-    entity_detection: true,
-    auto_highlights: true,
-  });
-};
-
-const fetchSubtitles = async (transcriptId: string) =>
-  await assemblyAI.transcripts.subtitles(transcriptId, "vtt");
 
 export default function TranscriptionHandler() {
   const [file, setFile] = useState<File | null>(null);
