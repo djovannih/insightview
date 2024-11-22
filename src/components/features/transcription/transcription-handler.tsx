@@ -8,8 +8,8 @@ import { extractAudioFromVideo } from "@/lib/audio-extractor";
 import { Card, CardContent } from "@/components/ui/card";
 import Insights from "@/components/features/insights/insights";
 import FilePreview from "@/components/features/preview/file-preview";
+import TranscriptActions from "@/components/features/transcription/transcript-actions";
 import UploadArea from "@/components/features/upload/upload-area";
-import TranscriptActions from "@/components/features/wizard/transcript-actions";
 
 const fetchTranscript = async (file: File) => {
   const buffer = Buffer.from(
@@ -36,7 +36,7 @@ const fetchTranscript = async (file: File) => {
 const fetchSubtitles = async (transcriptId: string) =>
   await assemblyAI.transcripts.subtitles(transcriptId, "vtt");
 
-export default function Wizard() {
+export default function TranscriptionHandler() {
   const [file, setFile] = useState<File | null>(null);
 
   const {

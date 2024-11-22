@@ -1,5 +1,5 @@
-import Wizard from "@/components/features/wizard/wizard";
+import TranscriptionHandler from "@/components/features/transcription/transcription-handler";
 
 export default function Home() {
-  return <Wizard />;
+  return <TranscriptionHandler />;
 }
