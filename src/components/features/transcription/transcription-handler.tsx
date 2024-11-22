@@ -21,6 +21,7 @@ export default function TranscriptionHandler() {
     isMutating: transcriptLoading,
     error: transcriptError,
     trigger: generateTranscript,
+    reset: resetTranscript,
   } = useSWRMutation(file, fetchTranscript);
 
   const {
@@ -28,7 +29,14 @@ export default function TranscriptionHandler() {
     isMutating: subtitlesLoading,
     error: subtitlesError,
     trigger: generateSubtitles,
+    reset: resetSubtitles,
   } = useSWRMutation(transcript?.id ?? null, fetchSubtitles);
+
+  const resetAll = () => {
+    setFile(null);
+    resetTranscript();
+    resetSubtitles();
+  };
 
   const subtitlesBlobUrl =
     subtitles &&
@@ -44,7 +52,7 @@ export default function TranscriptionHandler() {
             <FilePreview file={file} subtitlesSrc={subtitlesBlobUrl} />
             <TranscriptActions
               file={file!}
-              discardFile={() => setFile(null)}
+              discardFile={resetAll}
               generateTranscript={generateTranscript}
               transcript={transcript}
               transcriptLoading={transcriptLoading}
