@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Moon, Sun } from "lucide-react";
 
 export default function Header() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -35,10 +36,20 @@ export default function Header() {
           <div className="flex items-center">
             <button
               onClick={toggleTheme}
-              className="rounded-full bg-gray-200 p-2 transition duration-300 focus:outline-none dark:bg-gray-700"
-              aria-label="Toggle Dark Mode"
+              className="group relative flex items-center justify-center rounded-full border border-muted/40 bg-transparent p-2 transition-all duration-300 hover:bg-muted/50"
+              aria-label="Toggle theme"
             >
-              {isDarkMode ? "🌙" : "☀️"}
+              <span
+                className="absolute inset-0 rounded-full bg-primary/20 opacity-0 blur-md transition duration-300 group-hover:opacity-100"
+                aria-hidden="true"
+              ></span>
+              <span
+                className="relative flex items-center justify-center text-muted-foreground transition-transform group-hover:text-primary"
+                aria-hidden="true"
+              >
+                <Moon className="hidden h-5 w-5 dark:block" />
+                <Sun className="block h-5 w-5 dark:hidden" />
+              </span>
             </button>
           </div>
         </div>

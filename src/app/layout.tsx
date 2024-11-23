@@ -32,7 +32,7 @@ export default async function RootLayout({
       <body className="min-h-screen bg-muted">
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="mx-auto max-w-3xl py-6 sm:px-6 lg:px-8">
+          <main className="mx-auto max-w-3xl px-2 py-4 sm:px-6 lg:px-8">
             {children}
           </main>
           <Toaster />
