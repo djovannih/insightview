@@ -68,7 +68,7 @@ export default function TranscriptActions({
           {t("transcribe")}
         </Button>
       )}
-      {!!transcript && !subtitlesBlobUrl && (
+      {transcript?.status === "completed" && !subtitlesBlobUrl && (
         <Button
           onClick={generateSubtitles}
           disabled={!transcript || subtitlesLoading}
@@ -76,7 +76,7 @@ export default function TranscriptActions({
           {t("generateSubtitles")}
         </Button>
       )}
-      {!!transcript && subtitlesBlobUrl && (
+      {transcript?.status === "completed" && subtitlesBlobUrl && (
         <Button asChild>
           <a
             href={subtitlesBlobUrl}

@@ -34,7 +34,7 @@ export default function TranscriptCard({
                   {transcript.utterances.map((utterance) => (
                     <div key={utterance.start} className="flex flex-col gap-1">
                       <p className="font-semibold">
-                        {utterance.speaker.length === 1
+                        {utterance.speaker.length === 1 // This is a hacky way to check if the speaker name was not detected by the AI
                           ? t("speaker", { name: utterance.speaker })
                           : utterance.speaker}
                       </p>

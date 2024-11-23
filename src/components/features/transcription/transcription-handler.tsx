@@ -62,11 +62,13 @@ export default function TranscriptionHandler() {
               subtitlesLoading={subtitlesLoading}
               subtitlesError={!!subtitlesError}
             />
-            {(!!transcript || transcriptLoading || !!transcriptError) && (
+            {(transcript?.status === "completed" ||
+              transcriptLoading ||
+              !!transcriptError) && (
               <Insights
                 transcript={transcript}
-                loading={transcriptLoading}
-                error={!!transcriptError}
+                transcriptLoading={transcriptLoading}
+                transcriptError={!!transcriptError}
                 retry={generateTranscript}
               />
             )}
