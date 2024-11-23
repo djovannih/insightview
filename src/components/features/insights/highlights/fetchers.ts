@@ -54,7 +54,10 @@ function findQuote(transcriptWords: TranscriptWord[], quote: string) {
   for (let i = 0; i <= transcriptWords.length - quoteWords.length; i++) {
     let match = true;
     for (let j = 0; j < quoteWords.length; j++) {
-      if (transcriptWords[i + j].text !== quoteWords[j]) {
+      if (
+        transcriptWords[i + j].text.toLowerCase() !==
+        quoteWords[j].toLowerCase()
+      ) {
         match = false;
         break;
       }

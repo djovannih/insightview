@@ -17,6 +17,7 @@ interface InsightsProps {
   transcriptLoading: boolean;
   transcriptError: boolean;
   retry: () => void;
+  playMediaSegment: (start: number, end: number) => void;
 }
 
 export default function Insights({
@@ -24,6 +25,7 @@ export default function Insights({
   transcriptLoading,
   transcriptError,
   retry,
+  playMediaSegment,
 }: InsightsProps) {
   const {
     data: articleHtml,
@@ -70,6 +72,7 @@ export default function Insights({
             loading={transcriptLoading || highlightsLoading}
             error={transcriptError || highlightsError}
             retry={retry}
+            playMediaSegment={playMediaSegment}
           />
         </TabsContent>
         <TabsContent value="article">

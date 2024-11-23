@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +15,8 @@ import UploadArea from "@/components/features/upload/upload-area";
 
 export default function TranscriptionHandler() {
   const [file, setFile] = useState<File | null>(null);
+
+  const mediaRef = useRef<HTMLVideoElement>(null);
 
   const {
     data: transcript,
@@ -38,6 +40,14 @@ export default function TranscriptionHandler() {
     resetSubtitles();
   };
 
+  const playMediaSegment = (start: number, end: number) => {
+    if (mediaRef.current && start && end) {
+      mediaRef.current.currentTime = start / 1000;
+      mediaRef.current.play();
+      setTimeout(() => mediaRef.current?.pause(), end - start);
+    }
+  };
+
   const subtitlesBlobUrl =
     subtitles &&
     URL.createObjectURL(new Blob([subtitles], { type: "text/vtt" }));
@@ -49,7 +59,11 @@ export default function TranscriptionHandler() {
           <UploadArea uploadFile={(file) => setFile(file)} />
         ) : (
           <div className="flex flex-col gap-4">
-            <FilePreview file={file} subtitlesSrc={subtitlesBlobUrl} />
+            <FilePreview
+              file={file}
+              subtitlesSrc={subtitlesBlobUrl}
+              mediaRef={mediaRef}
+            />
             <TranscriptActions
               file={file!}
               discardFile={resetAll}
@@ -70,6 +84,7 @@ export default function TranscriptionHandler() {
                 transcriptLoading={transcriptLoading}
                 transcriptError={!!transcriptError}
                 retry={generateTranscript}
+                playMediaSegment={playMediaSegment}
               />
             )}
           </div>

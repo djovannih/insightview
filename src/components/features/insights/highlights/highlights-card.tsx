@@ -1,5 +1,8 @@
 "use client";
 
+import { Play } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,6 +14,7 @@ interface HighlightsCardProps {
   loading: boolean;
   error: boolean;
   retry: () => void;
+  playMediaSegment: (start: number, end: number) => void;
 }
 
 export default function HighlightsCard({
@@ -18,6 +22,7 @@ export default function HighlightsCard({
   loading,
   error,
   retry,
+  playMediaSegment,
 }: HighlightsCardProps) {
   return (
     <Card>
@@ -26,8 +31,20 @@ export default function HighlightsCard({
           <ScrollArea>
             <ul className="flex h-96 flex-col gap-4 pr-4">
               {highlights.map((highlight) => (
-                <li key={highlight.quote}>
-                  <blockquote>{highlight.quote}</blockquote>
+                <li key={highlight.quote} className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() =>
+                      playMediaSegment(highlight.start, highlight.end)
+                    }
+                    className="aspect-square"
+                  >
+                    <Play className="size-4" />
+                  </Button>
+                  <blockquote>
+                    {highlight.quote.replace(/^./, (str) => str.toUpperCase())}
+                  </blockquote>
                 </li>
               ))}
             </ul>
