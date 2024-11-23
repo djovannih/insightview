@@ -6,11 +6,13 @@ import { useTranslations } from "next-intl";
 import useSWRMutation from "swr/mutation";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ArticleCard from "@/components/features/insights/article-card";
-import { fetchArticle } from "@/components/features/insights/fetchers";
-import { fetchHighlights } from "@/components/features/insights/highlights/fetchers";
+import ArticleCard from "@/components/features/insights/draft-article/article-card";
+import {
+  fetchArticle,
+  fetchHighlights,
+} from "@/components/features/insights/fetchers";
 import HighlightsCard from "@/components/features/insights/highlights/highlights-card";
-import TranscriptCard from "@/components/features/insights/transcript-card";
+import TranscriptCard from "@/components/features/insights/transcript/transcript-card";
 
 interface InsightsProps {
   transcript: Transcript | undefined;

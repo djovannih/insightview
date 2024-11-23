@@ -1,38 +1,58 @@
+import { Transcript, TranscriptWord } from "assemblyai";
+
 import assemblyAI from "@/lib/assemblyai";
-
-const prompt = `Generate an engaging and informative newspaper article based on the provided interview transcript. The article should capture the essence of the conversation while presenting it in a journalistic style.
-
-Ensure that the article remains faithful to the language used in the interview. The tone should reflect the moods and emotions conveyed by the interviewee and interviewer—whether it's formal, casual, enthusiastic, or serious.
-
-# Steps
-
-1. **Understand the Context**: Carefully read the interview transcript to understand the key points, emotional context, and overall message.
-2. **Extract Key Highlights**: Identify the most important information, quotes, and any narrative that stands out to help maintain reader interest.
-3. **Structure the Article Body**:
-   - **Body**:
-     - Present the information in a logical flow, maintaining a balance between the interview content and journalistic storytelling.
-     - Use quotes sparingly for authenticity and to illustrate the subject's perspective.
-4. **Tone Matching**: Keep the tone consistent with that in the original transcript, allowing readers to grasp the mood, personality, and dynamism of the interviewee.
-
-# Output Format
-
-Write the output as HTML, using \`<p>\`, \`<h2>\`, \`<h3>\`, \`<h4>\`, \`<b>\`, \`<i>\`, \`<blockquote>\`, \`<code>\`, \`<ol>\`, \`<ul>\`, and any other HTML-supported tags as necessary to create a well-structured and engaging article body. Aim for a length of approximately 300-600 words. 
-
-Only include the body text of the article—do not include a headline or introductory paragraph.
-
-# Notes
-
-- Focus on maintaining accuracy, using direct quotes effectively.
-- Do not alter the meaning; be true to the content shared by the interviewee.
-- Adjust sentences for flair as suited to a newspaper format, ensuring engaging readability.
-- Maintain a clear transition between different topics or stages discussed.`;
+import { Highlight } from "@/components/features/insights/highlights/types";
+import {
+  extractHighlightsPrompt,
+  generateArticlePrompt,
+} from "@/components/features/insights/prompts";
 
 export const fetchArticle = async (transcriptId: string) => {
   const response = await assemblyAI.lemur.task({
-    prompt: prompt,
+    prompt: generateArticlePrompt,
     final_model: "anthropic/claude-3-5-sonnet",
     temperature: 0.5,
     transcript_ids: [transcriptId],
   });
   return response.response;
 };
+
+export const fetchHighlights = async (transcript: Transcript) => {
+  const quotesResponse = await assemblyAI.lemur.task({
+    prompt: extractHighlightsPrompt,
+    final_model: "anthropic/claude-3-5-sonnet",
+    temperature: 0.5,
+    transcript_ids: [transcript.id],
+  });
+  const quotes = JSON.parse(quotesResponse.response) as string[];
+
+  return quotes
+    .map((quote) => findQuote(transcript.words ?? [], quote))
+    .filter((quoteWords) => quoteWords.length > 0)
+    .map(
+      (quoteWords) =>
+        ({
+          quote: quoteWords.map((quoteWord) => quoteWord.text).join(" "),
+          start: quoteWords[0].start,
+          end: quoteWords.at(-1)!.end,
+        }) as Highlight,
+    );
+};
+
+function findQuote(transcriptWords: TranscriptWord[], quote: string) {
+  const quoteWords = quote.split(" ");
+  for (let i = 0; i <= transcriptWords.length - quoteWords.length; i++) {
+    let match = true;
+    for (let j = 0; j < quoteWords.length; j++) {
+      if (
+        transcriptWords[i + j].text.toLowerCase() !==
+        quoteWords[j].toLowerCase()
+      ) {
+        match = false;
+        break;
+      }
+    }
+    if (match) return transcriptWords.slice(i, i + quoteWords.length);
+  }
+  return [];
+}

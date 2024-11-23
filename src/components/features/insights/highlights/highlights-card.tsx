@@ -5,8 +5,8 @@ import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Skeleton } from "@/components/ui/skeleton";
 import ErrorMessage from "@/components/features/insights/error-message";
+import HighlightsSkeleton from "@/components/features/insights/highlights/highlights-skeleton";
 import { Highlight } from "@/components/features/insights/highlights/types";
 
 interface HighlightsCardProps {
@@ -50,52 +50,7 @@ export default function HighlightsCard({
             </ul>
           </ScrollArea>
         )}
-        {loading && (
-          <div className="flex h-96 w-full flex-col gap-4">
-            <div className="flex w-full items-center gap-2">
-              <Skeleton className="size-9" />
-              <div className="flex w-full flex-col gap-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-3/5" />
-              </div>
-            </div>
-            <div className="flex w-full items-center gap-2">
-              <Skeleton className="size-9" />
-              <div className="flex w-full flex-col gap-2">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-2/5" />
-              </div>
-            </div>
-            <div className="flex w-full items-center gap-2">
-              <Skeleton className="size-9" />
-              <div className="flex w-full flex-col gap-2">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-4/5" />
-              </div>
-            </div>
-            <div className="flex w-full items-center gap-2">
-              <Skeleton className="size-9" />
-              <div className="flex w-full flex-col gap-2">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-4/5" />
-              </div>
-            </div>
-            <div className="flex w-full items-center gap-2">
-              <Skeleton className="size-9" />
-              <div className="flex w-full flex-col gap-2">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-2/3" />
-              </div>
-            </div>
-            <div className="flex w-full items-center gap-2">
-              <Skeleton className="size-9" />
-              <div className="flex w-full flex-col gap-2">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-1/2" />
-              </div>
-            </div>
-          </div>
-        )}
+        {loading && <HighlightsSkeleton />}
         {error && <ErrorMessage retry={retry} />}
       </CardContent>
     </Card>
