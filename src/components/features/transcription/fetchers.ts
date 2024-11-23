@@ -16,9 +16,6 @@ export const fetchTranscript = async (file: File) => {
     language_detection: true,
     speaker_labels: true,
     format_text: true,
-    iab_categories: true,
-    entity_detection: true,
-    auto_highlights: true,
   });
 
   if (transcript.utterances && transcript.utterances.length > 0) {

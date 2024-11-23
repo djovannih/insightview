@@ -24,8 +24,8 @@
   },
   "Insights": {
     "transcription": "Transcription",
-    "draftArticle": "Draft Article",
-    "insights": "Insights"
+    "highlights": "Highlights",
+    "draftArticle": "Draft Article"
   },
   "TranscriptCard": {
     "speaker": "Speaker {name}",

@@ -24,8 +24,8 @@
   },
   "Insights": {
     "transcription": "Trascrizione",
-    "draftArticle": "Bozza articolo",
-    "insights": "Approfondimenti"
+    "highlights": "Momenti chiave",
+    "draftArticle": "Bozza articolo"
   },
   "TranscriptCard": {
     "speaker": "Persona {nome}",
