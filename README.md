@@ -1,34 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InsightView
 
-## Getting Started
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-First, run the development server:
+A powerful web application that streamlines the journalism workflow by automating interview transcription, highlights extraction, and article generation. Built for the dev.to [AssemblyAI Challenge](https://dev.to/challenges/assemblyai).
+
+## 📑 Table of Contents
+
+- [InsightView](#insightview)
+  - [📑 Table of Contents](#-table-of-contents)
+  - [🎯 Overview](#-overview)
+  - [✨ Features](#-features)
+    - [Interview Transcription](#interview-transcription)
+    - [Content Analysis](#content-analysis)
+    - [Article Generation](#article-generation)
+  - [🛠️ Tech Stack](#️-tech-stack)
+  - [🚀 Getting Started](#-getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [💻 Usage](#-usage)
+    - [Development](#development)
+    - [Production](#production)
+  - [⚙️ Configuration](#️-configuration)
+    - [Environment Variables](#environment-variables)
+  - [📄 License](#-license)
+  - [🙏 Acknowledgments](#-acknowledgments)
+
+## 🎯 Overview
+
+InsightView revolutionizes the journalism workflow by providing an integrated platform for managing interview content. It leverages AI technology to automate time-consuming tasks, allowing journalists to focus on crafting compelling stories.
+
+## ✨ Features
+
+### Interview Transcription
+
+- **Audio/Video Upload**: Support for multiple media formats
+- **Real-time Preview**: Preview uploads before processing
+- **Advanced Transcription**: Powered by AssemblyAI Speech Recognition
+- **Speaker Identification**: Automatic speaker detection and naming using LeMUR
+- **Export Options**: Download transcripts in VTT format
+
+### Content Analysis
+
+- **Smart Highlights**: Automatic extraction of key interview moments
+- **Context Preservation**: View highlights within the original interview context
+
+### Article Generation
+
+- **AI-Powered Drafting**: Generate article drafts using LeMUR
+- **HTML-Ready Format**: Export articles in ready-to-publish HTML format
+
+## 🛠️ Tech Stack
+
+- **Frontend Framework**: Next.js
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn UI
+- **Code Quality**:
+  - Prettier for formatting
+  - ESLint for linting
+- **AI Integration**: AssemblyAI API
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js
+- AssemblyAI API key
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/insightview.git
+cd insightview
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-## Learn More
+3. Copy the environment variables file:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp .env.example .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Add your AssemblyAI API key to `.env.local`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```plaintext
+NEXT_PUBLIC_ASSEMBLYAI_API_KEY=<YOUR_API_KEY>
+```
 
-## Deploy on Vercel
+## 💻 Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+### Production
+
+Build and start the production server:
+
+```bash
+pnpm build
+pnpm start
+```
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+| Variable                         | Description             | Required |
+| -------------------------------- | ----------------------- | -------- |
+| `NEXT_PUBLIC_ASSEMBLYAI_API_KEY` | Your AssemblyAI API key | Yes      |
+
+See `.env.example` for reference.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [AssemblyAI](https://www.assemblyai.com/) for providing the AI capabilities
+- [Shadcn](https://ui.shadcn.com/) for the excellent UI components
+- The [dev.to](https://dev.to) community for organizing the challenge
+
+---
+
+Made with ❤️ by Giovanni Improta
