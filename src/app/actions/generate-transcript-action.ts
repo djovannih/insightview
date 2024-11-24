@@ -1,14 +1,14 @@
 "use server";
 
 import { LemurQuestion, Transcript, TranscriptUtterance } from "assemblyai";
+import { PassThrough, Readable } from "stream";
 
-import { extractAudioFromVideo } from "@/lib/audio-extractor";
 import { assemblyAI } from "@/app/actions/assemblyai";
 
 export const generateTranscriptAction = async (file: File) => {
   const buffer = Buffer.from(
     file.type.startsWith("video/")
-      ? await extractAudioFromVideo(file)
+      ? await extractAudioFromVideo(Buffer.from(await file.arrayBuffer()))
       : await file.arrayBuffer(),
   );
 
@@ -61,4 +61,23 @@ async function getSpeakerMapping(utterances: TranscriptUtterance[]) {
       ? map.set(match[1], answer)
       : map;
   }, new Map<string, string>());
+}
+
+async function extractAudioFromVideo(buffer: Buffer): Promise<Buffer> {
+  const ffmpeg = (await import("fluent-ffmpeg")).default;
+
+  return new Promise((resolve, reject) => {
+    const inputStream = Readable.from(buffer);
+    const outputStream = new PassThrough();
+    const chunks: Buffer[] = [];
+
+    outputStream.on("data", (chunk) => chunks.push(chunk));
+    outputStream.on("end", () => resolve(Buffer.concat(chunks)));
+
+    ffmpeg()
+      .input(inputStream)
+      .toFormat("mp3")
+      .on("error", reject)
+      .writeToStream(outputStream);
+  });
 }
