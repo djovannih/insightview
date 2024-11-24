@@ -1,6 +1,6 @@
 "use server";
 
-import { assemblyAI } from "@/app/actions/assemblyai";
+import { assemblyAI } from "@/actions/assemblyai";
 
 export const generateArticleAction = async (transcriptId: string) => {
   const response = await assemblyAI.lemur.task({

@@ -1,7 +1,7 @@
 import { useActionState, useCallback, useTransition } from "react";
 
+import { generateArticleAction } from "@/actions/generate-article-action";
 import { ActionResult } from "@/hooks/types";
-import { generateArticleAction } from "@/app/actions/generate-article-action";
 
 export function useArticleGeneration(
   transcriptId: string | undefined,

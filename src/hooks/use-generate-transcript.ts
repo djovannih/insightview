@@ -1,8 +1,8 @@
 import { useActionState, useCallback, useTransition } from "react";
 import { Transcript } from "assemblyai";
 
+import { generateTranscriptAction } from "@/actions/generate-transcript-action";
 import { ActionResult } from "@/hooks/types";
-import { generateTranscriptAction } from "@/app/actions/generate-transcript-action";
 
 export function useTranscriptGeneration(
   file: File | null,

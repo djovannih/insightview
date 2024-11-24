@@ -1,9 +1,9 @@
 import { useActionState, useCallback, useTransition } from "react";
 import { Transcript } from "assemblyai";
 
+import { generateHighlightsAction } from "@/actions/generate-highlights-action";
 import { Highlight } from "@/types/highlight";
 import { ActionResult } from "@/hooks/types";
-import { generateHighlightsAction } from "@/app/actions/generate-highlights-action";
 
 export function useHighlightsGeneration(
   transcript: Transcript | undefined,

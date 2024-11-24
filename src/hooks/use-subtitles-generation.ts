@@ -1,7 +1,7 @@
 import { useActionState, useCallback, useTransition } from "react";
 
+import { generateSubtitlesAction } from "@/actions/generate-subtitles-action";
 import { ActionResult } from "@/hooks/types";
-import { generateSubtitlesAction } from "@/app/actions/generate-subtitles-action";
 
 export function useSubtitlesGeneration(
   transcriptId: string | undefined,

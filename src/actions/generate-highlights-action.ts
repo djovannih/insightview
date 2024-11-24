@@ -2,8 +2,8 @@
 
 import { Transcript, TranscriptWord } from "assemblyai";
 
+import { assemblyAI } from "@/actions/assemblyai";
 import { Highlight } from "@/types/highlight";
-import { assemblyAI } from "@/app/actions/assemblyai";
 
 export const generateHighlightsAction = async (transcript: Transcript) => {
   const quotesResponse = await assemblyAI.lemur.task({

@@ -2,8 +2,7 @@
 
 import { LemurQuestion, Transcript, TranscriptUtterance } from "assemblyai";
 import { PassThrough, Readable } from "stream";
-
-import { assemblyAI } from "@/app/actions/assemblyai";
+import { assemblyAI } from "@/actions/assemblyai";
 
 export const generateTranscriptAction = async (file: File) => {
   const buffer = Buffer.from(
