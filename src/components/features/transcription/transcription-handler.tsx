@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 
 import { useTranscriptGeneration } from "@/hooks/use-generate-transcript";
 import { useSubtitlesGeneration } from "@/hooks/use-subtitles-generation";
-import { Card, CardContent } from "@/components/ui/card";
 import Insights from "@/components/features/insights/insights";
 import FilePreview from "@/components/features/preview/file-preview";
 import TranscriptActions from "@/components/features/transcription/transcription-controls";
@@ -45,44 +44,38 @@ export default function TranscriptionHandler() {
     subtitles &&
     URL.createObjectURL(new Blob([subtitles], { type: "text/vtt" }));
 
-  return (
-    <Card>
-      <CardContent>
-        {!file ? (
-          <UploadArea uploadFile={(file) => setFile(file)} />
-        ) : (
-          <div className="flex flex-col gap-4">
-            <FilePreview
-              file={file}
-              subtitlesSrc={subtitlesBlobUrl}
-              mediaRef={mediaRef}
-            />
-            <TranscriptActions
-              file={file!}
-              discardFile={resetAll}
-              generateTranscript={generateTranscript}
-              transcript={transcript}
-              transcriptLoading={transcriptLoading}
-              transcriptError={!!transcriptError}
-              generateSubtitles={generateSubtitles}
-              subtitlesBlobUrl={subtitlesBlobUrl}
-              subtitlesLoading={subtitlesLoading}
-              subtitlesError={!!subtitlesError}
-            />
-            {(transcript?.status === "completed" ||
-              transcriptLoading ||
-              !!transcriptError) && (
-              <Insights
-                transcript={transcript}
-                transcriptLoading={transcriptLoading}
-                transcriptError={!!transcriptError}
-                retry={generateTranscript}
-                playMediaSegment={playMediaSegment}
-              />
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+  return !file ? (
+    <UploadArea uploadFile={(file) => setFile(file)} />
+  ) : (
+    <div className="flex flex-col gap-4">
+      <FilePreview
+        file={file}
+        subtitlesSrc={subtitlesBlobUrl}
+        mediaRef={mediaRef}
+      />
+      <TranscriptActions
+        file={file!}
+        discardFile={resetAll}
+        generateTranscript={generateTranscript}
+        transcript={transcript}
+        transcriptLoading={transcriptLoading}
+        transcriptError={!!transcriptError}
+        generateSubtitles={generateSubtitles}
+        subtitlesBlobUrl={subtitlesBlobUrl}
+        subtitlesLoading={subtitlesLoading}
+        subtitlesError={!!subtitlesError}
+      />
+      {(transcript?.status === "completed" ||
+        transcriptLoading ||
+        transcriptError) && (
+        <Insights
+          transcript={transcript}
+          transcriptLoading={transcriptLoading}
+          transcriptError={!!transcriptError}
+          retry={generateTranscript}
+          playMediaSegment={playMediaSegment}
+        />
+      )}
+    </div>
   );
 }

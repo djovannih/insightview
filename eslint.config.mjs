@@ -1,35 +1,83 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { FlatCompat } from "@eslint/eslintrc";
-import js from "@eslint/js";
-import typescriptPlugin from "@typescript-eslint/eslint-plugin";
+
+import globals from "globals";
+import tsParser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 import importPlugin from "eslint-plugin-import";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
+import nextPlugin from "@next/eslint-plugin-next";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-const config = [
-  ...compat.extends(
-    "eslint:recommended",
-    "next/core-web-vitals",
-    "next/typescript",
-    "prettier",
-  ),
+/** @type {import('eslint').Linter.FlatConfig[]} */
+export default [
   {
-    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
     ignores: [".next/**", "node_modules/**", "dist/**", "build/**"],
+  },
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
+      "@typescript-eslint": tsPlugin,
       import: importPlugin,
-      "@typescript-eslint": typescriptPlugin,
+      react: reactPlugin,
+      "react-hooks": reactHooksPlugin,
+      "@next/next": nextPlugin,
+    },
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: "./tsconfig.json",
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+        React: "readable",
+      },
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+      "import/parsers": {
+        "@typescript-eslint/parser": [".ts", ".tsx"],
+      },
+      "import/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+          project: "./tsconfig.json",
+        },
+      },
     },
     rules: {
-      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "@next/next/no-html-link-for-pages": "error",
+      "@next/next/no-img-element": "error",
+      "@next/next/no-sync-scripts": "error",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-unused-expressions": [
+        "error",
+        {
+          allowShortCircuit: true,
+          allowTernary: true,
+          allowTaggedTemplates: true,
+        },
+      ],
       "import/order": [
         "error",
         {
@@ -63,6 +111,7 @@ const config = [
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
+      "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-restricted-imports": [
         "error",
         {
@@ -74,21 +123,6 @@ const config = [
           ],
         },
       ],
-      "@typescript-eslint/no-unused-expressions": [
-        "error",
-        {
-          allowShortCircuit: true,
-          allowTernary: true,
-          allowTaggedTemplates: true,
-        },
-      ],
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
-      "react/jsx-no-literals": "error",
     },
   },
 ];
-
-export default config;
