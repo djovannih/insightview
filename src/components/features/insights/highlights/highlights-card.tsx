@@ -2,12 +2,12 @@
 
 import { Play } from "lucide-react";
 
+import { Highlight } from "@/types/highlight";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ErrorMessage from "@/components/features/insights/error-message";
 import HighlightsSkeleton from "@/components/features/insights/highlights/highlights-skeleton";
-import { Highlight } from "@/components/features/insights/highlights/types";
 
 interface HighlightsCardProps {
   highlights: Highlight[] | undefined;

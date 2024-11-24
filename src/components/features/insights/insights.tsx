@@ -3,14 +3,11 @@
 import { useEffect } from "react";
 import { Transcript } from "assemblyai";
 import { useTranslations } from "next-intl";
-import useSWRMutation from "swr/mutation";
 
+import { useArticleGeneration } from "@/hooks/use-article-generation";
+import { useHighlightsGeneration } from "@/hooks/use-highlights-generation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ArticleCard from "@/components/features/insights/draft-article/article-card";
-import {
-  fetchArticle,
-  fetchHighlights,
-} from "@/components/features/insights/fetchers";
 import HighlightsCard from "@/components/features/insights/highlights/highlights-card";
 import TranscriptCard from "@/components/features/insights/transcript/transcript-card";
 
@@ -30,18 +27,17 @@ export default function Insights({
   playMediaSegment,
 }: InsightsProps) {
   const {
-    data: articleHtml,
-    isMutating: articleLoading,
+    data: article,
+    loading: articleLoading,
     error: articleError,
     trigger: generateArticle,
-  } = useSWRMutation(transcript?.id ?? null, fetchArticle);
-
+  } = useArticleGeneration(transcript?.id);
   const {
     data: highlights,
-    isMutating: highlightsLoading,
+    loading: highlightsLoading,
     error: highlightsError,
     trigger: generateHighlights,
-  } = useSWRMutation(transcript ?? null, fetchHighlights);
+  } = useHighlightsGeneration(transcript);
 
   useEffect(() => {
     if (transcript?.status === "completed") {
@@ -79,7 +75,7 @@ export default function Insights({
         </TabsContent>
         <TabsContent value="article">
           <ArticleCard
-            articleHtml={articleHtml}
+            articleHtml={article}
             loading={transcriptLoading || articleLoading}
             error={transcriptError || articleError}
             retry={transcriptError ? retry : generateArticle}

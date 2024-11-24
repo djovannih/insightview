@@ -1,16 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
-import useSWRMutation from "swr/mutation";
 
+import { useTranscriptGeneration } from "@/hooks/use-generate-transcript";
+import { useSubtitlesGeneration } from "@/hooks/use-subtitles-generation";
 import { Card, CardContent } from "@/components/ui/card";
 import Insights from "@/components/features/insights/insights";
 import FilePreview from "@/components/features/preview/file-preview";
-import {
-  fetchSubtitles,
-  fetchTranscript,
-} from "@/components/features/transcription/fetchers";
-import TranscriptActions from "@/components/features/transcription/transcript-actions";
+import TranscriptActions from "@/components/features/transcription/transcription-controls";
 import UploadArea from "@/components/features/upload/upload-area";
 
 export default function TranscriptionHandler() {
@@ -20,24 +17,20 @@ export default function TranscriptionHandler() {
 
   const {
     data: transcript,
-    isMutating: transcriptLoading,
+    loading: transcriptLoading,
     error: transcriptError,
     trigger: generateTranscript,
-    reset: resetTranscript,
-  } = useSWRMutation(file, fetchTranscript);
+  } = useTranscriptGeneration(file);
 
   const {
     data: subtitles,
-    isMutating: subtitlesLoading,
+    loading: subtitlesLoading,
     error: subtitlesError,
     trigger: generateSubtitles,
-    reset: resetSubtitles,
-  } = useSWRMutation(transcript?.id ?? null, fetchSubtitles);
+  } = useSubtitlesGeneration(transcript?.id);
 
   const resetAll = () => {
     setFile(null);
-    resetTranscript();
-    resetSubtitles();
   };
 
   const playMediaSegment = (start: number, end: number) => {
