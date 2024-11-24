@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { ThemeProvider } from "next-themes";
 
 import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/layout/header/header";
@@ -28,15 +29,17 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={inter.className}>
+    <html lang={locale} className={inter.className} suppressHydrationWarning>
       <body className="min-h-screen bg-muted">
-        <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="mx-auto max-w-3xl px-2 py-4 sm:px-6 lg:px-8">
-            {children}
-          </main>
-          <Toaster />
-        </NextIntlClientProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <NextIntlClientProvider messages={messages}>
+            <Header />
+            <main className="mx-auto max-w-3xl px-2 py-4 sm:px-6 lg:px-8">
+              {children}
+            </main>
+            <Toaster />
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
