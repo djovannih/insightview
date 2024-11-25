@@ -1,4 +1,4 @@
-import { useActionState, useCallback, useTransition } from "react";
+import { useActionState, useTransition } from "react";
 import { Transcript } from "assemblyai";
 
 import { generateTranscriptAction } from "@/actions/generate-transcript-action";
@@ -9,16 +9,12 @@ export function useTranscriptGeneration(
 ): ActionResult<Transcript> {
   let error = false;
   const [isPending, startTransition] = useTransition();
-  const [transcript, transcriptAction] = useActionState(async () => {
-    if (file) return await generateTranscriptAction(file);
+  const [transcript, transcriptAction] = useActionState(() => {
+    if (file) return generateTranscriptAction(file);
     error = true;
   }, undefined);
 
-  const generateTranscript = useCallback(() => {
-    startTransition(() => {
-      transcriptAction();
-    });
-  }, [startTransition, transcriptAction]);
+  const generateTranscript = () => startTransition(() => transcriptAction());
 
   return {
     data: transcript,

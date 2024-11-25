@@ -1,4 +1,4 @@
-import { useActionState, useCallback, useTransition } from "react";
+import { useActionState, useTransition } from "react";
 import { Transcript } from "assemblyai";
 
 import { generateHighlightsAction } from "@/actions/generate-highlights-action";
@@ -10,17 +10,13 @@ export function useHighlightsGeneration(
 ): ActionResult<Highlight[]> {
   let error = false;
   const [isPending, startTransition] = useTransition();
-  const [highlights, highlightsAction] = useActionState(async () => {
+  const [highlights, highlightsAction] = useActionState(() => {
     if (transcript?.status === "completed")
-      return await generateHighlightsAction(transcript);
+      return generateHighlightsAction(transcript);
     error = true;
   }, undefined);
 
-  const generateHighlights = useCallback(() => {
-    startTransition(() => {
-      highlightsAction();
-    });
-  }, [startTransition, highlightsAction]);
+  const generateHighlights = () => startTransition(() => highlightsAction());
 
   return {
     data: highlights,
