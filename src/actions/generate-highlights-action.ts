@@ -1,5 +1,3 @@
-"use server";
-
 import { Transcript, TranscriptWord } from "assemblyai";
 
 import { assemblyAI } from "@/actions/assemblyai";

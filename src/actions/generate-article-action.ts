@@ -1,5 +1,3 @@
-"use server";
-
 import { assemblyAI } from "@/actions/assemblyai";
 
 export const generateArticleAction = async (transcriptId: string) => {

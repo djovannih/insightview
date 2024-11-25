@@ -1,5 +1,3 @@
-"use server";
-
 import { LemurQuestion, Transcript, TranscriptUtterance } from "assemblyai";
 import { PassThrough, Readable } from "stream";
 import { assemblyAI } from "@/actions/assemblyai";
