@@ -4,7 +4,7 @@ import { assemblyAI } from "@/actions/assemblyai";
 export const generateTranscriptAction = async (file: File) => {
   const buffer = Buffer.from(
     file.type.startsWith("video/")
-      ? await extractAudioFromVideo(Buffer.from(await file.arrayBuffer()))
+      ? await extractAudioFromVideo(file)
       : new Uint8Array(await file.arrayBuffer()),
   );
 
