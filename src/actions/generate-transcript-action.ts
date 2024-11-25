@@ -2,11 +2,9 @@ import { LemurQuestion, Transcript, TranscriptUtterance } from "assemblyai";
 import { assemblyAI } from "@/actions/assemblyai";
 
 export const generateTranscriptAction = async (file: File) => {
-  const buffer = Buffer.from(
-    file.type.startsWith("video/")
-      ? await extractAudioFromVideo(file)
-      : new Uint8Array(await file.arrayBuffer()),
-  );
+  const buffer = file.type.startsWith("video/")
+    ? Buffer.from(await extractAudioFromVideo(file))
+    : Buffer.from(new Uint8Array(await file.arrayBuffer()));
 
   const transcript = await assemblyAI.transcripts.transcribe({
     audio: buffer,
