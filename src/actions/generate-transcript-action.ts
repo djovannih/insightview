@@ -8,7 +8,7 @@ export const generateTranscriptAction = async (file: File) => {
 
   const transcript = await assemblyAI.transcripts.transcribe({
     audio: buffer,
-    speech_model: "nano",
+    speech_model: "best",
     language_detection: true,
     speaker_labels: true,
     format_text: true,
