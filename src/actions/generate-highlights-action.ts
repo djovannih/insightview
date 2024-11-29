@@ -20,7 +20,7 @@ export const generateHighlightsAction = async (transcript: Transcript) => {
         ({
           quote: quoteWords.map((quoteWord) => quoteWord.text).join(" "),
           start: quoteWords[0].start,
-          end: quoteWords.at(-1)!.end,
+          end: quoteWords.at(-1)!.end + 400,
         }) as Highlight,
     );
 };
